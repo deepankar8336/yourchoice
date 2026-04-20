@@ -1,59 +1,68 @@
-// ChoiceApp.js
-import React, { useState } from 'react';
-import './ChoiceApp.css'; // Import the CSS file for styling
+import React, { useState } from "react";
+import "./ChoiceApp.css";
 
-function ChoiceApp() {
-    const [choices, setChoices] = useState({
-        beautiful: false,
-        dowry: false,
-        virgin: false
+const ChoiceApp = () => {
+  const [choices, setChoices] = useState({
+    beautiful: false,
+    dowry: false,
+    virgin: false,
+  });
+
+  const handleToggle = (choice) => {
+    setChoices((prev) => {
+      const updated = { ...prev, [choice]: !prev[choice] };
+
+      // Rule 1: Beautiful ON → Virgin OFF
+      if (choice === "beautiful" && updated.beautiful) {
+        updated.virgin = false;
+      }
+
+      // Rule 2: Virgin ON → Beautiful OFF
+      if (choice === "virgin" && updated.virgin) {
+        updated.beautiful = false;
+      }
+
+      // ✅ Rule 3: Dowry ON → Virgin OFF
+      if (choice === "dowry" && updated.dowry) {
+        updated.virgin = false;
+      }
+
+      return updated;
     });
+  };
 
-    const toggleChoice = (choice) => {
-        setChoices(prevChoices => {
-            const newChoices = { ...prevChoices };
+  return (
+    <div className="container">
+      <h2>Choose Options</h2>
 
-            if (choice === 'beautiful') {
-                if (prevChoices.virgin) {
-                    newChoices.virgin = false;
-                }
-                newChoices.beautiful = !prevChoices.beautiful;
-            } else if (choice === 'dowry') {
-                newChoices.dowry = !prevChoices.dowry;
-            } else if (choice === 'virgin') {
-                if (prevChoices.beautiful) {
-                    newChoices.beautiful = false;
-                }
-                newChoices.virgin = !prevChoices.virgin;
-            }
+      <div className="option">
+        <label>Beautiful</label>
+        <input
+          type="checkbox"
+          checked={choices.beautiful}
+          onChange={() => handleToggle("beautiful")}
+        />
+      </div>
 
-            // Ensure that if both dowry and virgin are on, beautiful cannot be on
-            if (newChoices.dowry && newChoices.virgin) {
-                newChoices.beautiful = false;
-            }
+      <div className="option">
+        <label>Dowry</label>
+        <input
+          type="checkbox"
+          checked={choices.dowry}
+          onChange={() => handleToggle("dowry")}
+        />
+      </div>
 
-            return newChoices;
-        });
-    };
-
-    return (
-        <div style={{ textAlign: 'center', marginTop: '50px' }}>
-            <h1>Select Your Choice</h1>
-            <div>
-                {Object.keys(choices).map(choice => (
-                    <div key={choice} style={{ margin: '10px' }}>
-                        <span>{choice.charAt(0).toUpperCase() + choice.slice(1)}</span>
-                        <div 
-                            className={`switch ${choices[choice] ? 'on' : 'off'}`} 
-                            onClick={() => toggleChoice(choice)}
-                        >
-                            <div className="toggle"></div>
-                        </div>
-                    </div>
-                ))}
-            </div>
-        </div>
-    );
-}
+      <div className="option">
+        <label>Virgin</label>
+        <input
+          type="checkbox"
+          checked={choices.virgin}
+          onChange={() => handleToggle("virgin")}
+        />
+      </div>
+    </div>
+  );
+};
 
 export default ChoiceApp;
