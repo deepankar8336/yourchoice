@@ -12,21 +12,17 @@ const ChoiceApp = () => {
     setChoices((prev) => {
       const updated = { ...prev, [choice]: !prev[choice] };
 
-      // Existing logic
+      // Beautiful ON → Virgin OFF
       if (choice === "beautiful" && updated.beautiful) {
         updated.virgin = false;
       }
 
+      // Virgin ON → Beautiful OFF
       if (choice === "virgin" && updated.virgin) {
         updated.beautiful = false;
       }
 
-      // ✅ NEW: Virgin ON → Dowry ON
-      if (choice === "virgin" && updated.virgin) {
-        updated.dowry = true;
-      }
-
-      // ✅ NEW: Dowry ON → Virgin OFF
+      // Dowry ON → Virgin OFF
       if (choice === "dowry" && updated.dowry) {
         updated.virgin = false;
       }
@@ -40,30 +36,39 @@ const ChoiceApp = () => {
       <h2>Choose Options</h2>
 
       <div className="option">
-        <label>Beautiful</label>
-        <input
-          type="checkbox"
-          checked={choices.beautiful}
-          onChange={() => handleToggle("beautiful")}
-        />
+        <span>Beautiful</span>
+        <label className="switch">
+          <input
+            type="checkbox"
+            checked={choices.beautiful}
+            onChange={() => handleToggle("beautiful")}
+          />
+          <span className="slider"></span>
+        </label>
       </div>
 
       <div className="option">
-        <label>Dowry</label>
-        <input
-          type="checkbox"
-          checked={choices.dowry}
-          onChange={() => handleToggle("dowry")}
-        />
+        <span>Dowry</span>
+        <label className="switch">
+          <input
+            type="checkbox"
+            checked={choices.dowry}
+            onChange={() => handleToggle("dowry")}
+          />
+          <span className="slider"></span>
+        </label>
       </div>
 
       <div className="option">
-        <label>Virgin</label>
-        <input
-          type="checkbox"
-          checked={choices.virgin}
-          onChange={() => handleToggle("virgin")}
-        />
+        <span>Virgin</span>
+        <label className="switch">
+          <input
+            type="checkbox"
+            checked={choices.virgin}
+            onChange={() => handleToggle("virgin")}
+          />
+          <span className="slider"></span>
+        </label>
       </div>
     </div>
   );
