@@ -12,17 +12,16 @@ const ChoiceApp = () => {
     setChoices((prev) => {
       const updated = { ...prev, [choice]: !prev[choice] };
 
-      // Rule 1: Beautiful ON → Virgin OFF
+      // Keep existing logic
       if (choice === "beautiful" && updated.beautiful) {
         updated.virgin = false;
       }
 
-      // Rule 2: Virgin ON → Beautiful OFF
       if (choice === "virgin" && updated.virgin) {
         updated.beautiful = false;
       }
 
-      // ✅ Rule 3: Dowry ON → Virgin OFF
+      // ✅ Your ONLY new rule
       if (choice === "dowry" && updated.dowry) {
         updated.virgin = false;
       }
